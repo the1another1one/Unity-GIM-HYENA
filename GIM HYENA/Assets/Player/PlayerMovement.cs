@@ -27,7 +27,6 @@ public class PlayerMovement : MonoBehaviour
     {
         LinearDrag(direction);
         MoveCharacter(direction.x);
-        Debug.Log(rb.drag);
     }
 
     private void LinearDrag(Vector2 direction)
