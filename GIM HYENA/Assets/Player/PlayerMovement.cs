@@ -5,50 +5,53 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private Transform tf;
-    [SerializeField] private BoxCollider2D bc;
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private float max_speed = 20.0f;
-    [SerializeField] private float acceleration = 50.0f;
-    private Vector2 movement;
-    private bool is_grounded;
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        bc = GetComponent<BoxCollider2D>();
-        rb = GetComponent<Rigidbody2D>();
-        tf = GetComponent<Transform>();
-    }
+    [SerializeField] private float max_speed;
+    [SerializeField] private float acceleration;
+    [SerializeField] private float linear_drag;
+    private Vector2 direction;
 
     // Update is called once per frame
     private void Update()
     {
-        if (tf.position.y < -100)
+        if (tf.position.y < -50)
         {
-            tf.position = new Vector3(0, 0, 0);
+            tf.position = new Vector3(0, 0, 0); // respawn point if player fall into abyss
             rb.velocity = new Vector2(0, 0);
         }
 
-        movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        Debug.Log(movement);
-
-        if (Input.GetAxis("Horizontal") == 0 && rb.velocity.x != 0)
-        {
-            rb.drag = 0.8f;
-        }
-
-        
+        direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); // detect which direction player want to move   
     }
+
     void FixedUpdate()
     {
-    if (Mathf.Abs(movement.x) != 0)
+        LinearDrag(direction);
+        MoveCharacter(direction.x);
+        Debug.Log(rb.drag);
+    }
+
+    private void LinearDrag(Vector2 direction)
+    {
+        if (Mathf.Abs(direction.x) < 0.4f) // player will slow down when there is no input
         {
-            Debug.Log("Move detected !");
-            rb.AddForce(movement * acceleration);
+            rb.drag = linear_drag;
+        }
+        else
+        {
+            rb.drag = 0;
         }
     }
-    
-    //rb.velocity = movement * max_speed * Time.deltaTime;
-        
+
+    private void MoveCharacter(float horizontal)
+    {
+        if (Mathf.Abs(rb.velocity.x) < max_speed) // check if player speed is already at max speed
+            {
+                rb.AddForce(Vector2.right * horizontal * acceleration); // movement in x axis
+            }
+        else if (Mathf.Abs(rb.velocity.x) >= max_speed)
+            {
+                rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * max_speed, rb.velocity.y);
+            }
+    }
+
 }
