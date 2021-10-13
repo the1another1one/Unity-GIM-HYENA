@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ground
       objectReference: {fileID: 0}
+    - target: {fileID: 1900874373482729230, guid: 0bffa35c2ff295040bb36f2533674424, type: 3}
+      propertyPath: m_TagString
+      value: ground
+      objectReference: {fileID: 0}
     - target: {fileID: 2276864674655944224, guid: 0bffa35c2ff295040bb36f2533674424, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -366,7 +370,11 @@ MonoBehaviour:
   rb: {fileID: 1250118316}
   max_speed: 7
   acceleration: 20
-  linear_drag: 5
+  linear_drag: 0.8
+  jump_power: 5
+  gravity: 1
+  fall_multiplier: 1
+  is_grounded: 0
 --- !u!50 &1250118316 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 7515847434628353432, guid: 1471bce21ad84104fa2e23af1124b27c, type: 3}
