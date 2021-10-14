@@ -371,8 +371,8 @@ MonoBehaviour:
   max_speed: 7
   acceleration: 20
   linear_drag: 0.8
-  jump_power: 5
-  gravity: 1
+  jump_power: 7
+  gravity: 1.5
   fall_multiplier: 1
   is_grounded: 0
 --- !u!50 &1250118316 stripped

@@ -27,12 +27,16 @@ public class PlayerMovement : MonoBehaviour
         direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); // detect which direction player want to move
 
         LinearDrag(direction);
+        if (is_grounded && Input.GetButtonDown("Jump"))
+        {
+            Jump();
+        }
         Debug.Log(rb.drag + ", " + rb.gravityScale);
     }
 
     void FixedUpdate()
     {
-        MoveCharacter(direction, is_grounded);
+        MoveCharacter(direction);
     }
 
     private void LinearDrag(Vector2 direction)
@@ -54,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             rb.gravityScale = gravity;  
-            rb.drag = linear_drag * 0.3f;
+            rb.drag = linear_drag * 0.15f;
             if (rb.velocity.y < 0) // player will falling down fast
             {
                 rb.gravityScale = gravity * fall_multiplier;
@@ -66,21 +70,22 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void MoveCharacter(Vector2 direction, bool is_grounded)
+    private void MoveCharacter(Vector2 direction)
     {
-        if (Mathf.Abs(rb.velocity.x) < max_speed) // check if player speed is already at max speed
+        // check if player speed is already at max speed, movement in x axis
+        if (Mathf.Abs(rb.velocity.x) < max_speed)
         {
-            rb.AddForce(Vector2.right * direction.x * acceleration); // movement in x axis
+            rb.AddForce(Vector2.right * direction.x * acceleration);
         }
         else if (Mathf.Abs(rb.velocity.x) >= max_speed)
         {
             rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * max_speed, rb.velocity.y);
         }
-
-        if (is_grounded && direction.y == 1) 
-        {
-            rb.AddForce(Vector2.up * jump_power ,ForceMode2D.Impulse); // algorithm for jumping
-        }
+    }
+    // algorithm for jumping
+    private void Jump()
+    {
+        rb.AddForce(Vector2.up * jump_power, ForceMode2D.Impulse);
     }
 
     //check if player is on ground every frame
