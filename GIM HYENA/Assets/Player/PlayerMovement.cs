@@ -3,52 +3,106 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
-{
+{   
     [SerializeField] private Transform tf;
-    [SerializeField] private BoxCollider2D bc;
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private float max_speed = 20.0f;
-    [SerializeField] private float acceleration = 50.0f;
-    private Vector2 movement;
-    private bool is_grounded;
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        bc = GetComponent<BoxCollider2D>();
-        rb = GetComponent<Rigidbody2D>();
-        tf = GetComponent<Transform>();
-    }
+    [SerializeField] private float max_speed;
+    [SerializeField] private float acceleration;
+    [SerializeField] private float linear_drag;
+    [SerializeField] private float jump_power;
+    [SerializeField] private float gravity;
+    [SerializeField] private float fall_multiplier;
+    [SerializeField] private bool is_grounded;
+    private Vector2 direction;
 
     // Update is called once per frame
     private void Update()
     {
-        if (tf.position.y < -100)
+        if (tf.position.y < -50)
         {
-            tf.position = new Vector3(0, 0, 0);
+            tf.position = new Vector3(0, 0, 0); // respawn point if player fall into abyss
             rb.velocity = new Vector2(0, 0);
         }
 
-        movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        Debug.Log(movement);
+        direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); // detect which direction player want to move
 
-        if (Input.GetAxis("Horizontal") == 0 && rb.velocity.x != 0)
+        LinearDrag(direction);
+        if (is_grounded && Input.GetButtonDown("Jump"))
         {
-            rb.drag = 0.8f;
+            Jump();
         }
-
-        
+        Debug.Log(rb.drag + ", " + rb.gravityScale);
     }
+
     void FixedUpdate()
     {
-    if (Mathf.Abs(movement.x) != 0)
+        MoveCharacter(direction);
+    }
+
+    private void LinearDrag(Vector2 direction)
+    {
+        bool changing_direction = (rb.velocity.x > 0 && direction.x < 0) || (rb.velocity.x < 0 && direction.x > 0);
+
+        if (is_grounded)
         {
-            Debug.Log("Move detected !");
-            rb.AddForce(movement * acceleration);
+            if (Mathf.Abs(direction.x) < 0.4f || changing_direction) // player will slow down when there is no input on the ground
+            {
+                rb.drag = linear_drag;
+            }
+            else
+            {
+                rb.drag = 0;
+            }
+            rb.gravityScale = 0f;
+        }
+        else
+        {
+            rb.gravityScale = gravity;  
+            rb.drag = linear_drag * 0.15f;
+            if (rb.velocity.y < 0) // player will falling down fast
+            {
+                rb.gravityScale = gravity * fall_multiplier;
+            }
+            else if (rb.velocity.y > 0 && Input.GetButton("Jump")) // higher jump while holding the button, jump button can be seen at edit -> project setting -> input manager
+            {
+                rb.gravityScale = gravity * (fall_multiplier / 2);
+            }
         }
     }
-    
-    //rb.velocity = movement * max_speed * Time.deltaTime;
-        
+
+    private void MoveCharacter(Vector2 direction)
+    {
+        // check if player speed is already at max speed, movement in x axis
+        if (Mathf.Abs(rb.velocity.x) < max_speed)
+        {
+            rb.AddForce(Vector2.right * direction.x * acceleration);
+        }
+        else if (Mathf.Abs(rb.velocity.x) >= max_speed)
+        {
+            rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * max_speed, rb.velocity.y);
+        }
+    }
+    // algorithm for jumping
+    private void Jump()
+    {
+        rb.AddForce(Vector2.up * jump_power, ForceMode2D.Impulse);
+    }
+
+    //check if player is on ground every frame
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "ground")
+        {
+            is_grounded = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "ground")
+        {
+            is_grounded = false;
+        }
+    }
+    //check if player is on ground every frame 
 }

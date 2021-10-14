@@ -16,11 +16,5 @@ public class CameraFollow : MonoBehaviour
     {
         Vector3 desired_position = target.position + offset;
         transform.position = Vector3.SmoothDamp(transform.position, desired_position, ref smooth_speed, damping);
-
-        /*
-        if (Mathf.Abs(camera.position.x - target.position.x) >= x_offset)
-        {
-            camera.position = new Vector3(target.position.x, camera.position.y, camera.position.z);
-        } */
     }
 }
