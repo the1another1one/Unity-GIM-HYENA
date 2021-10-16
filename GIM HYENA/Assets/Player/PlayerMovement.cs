@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float gravity;
     [SerializeField] private float fall_multiplier;
     [SerializeField] private bool is_grounded;
+    [SerializeField] private bool is_icy;
     private Vector2 direction;
 
     // Update is called once per frame
@@ -24,14 +25,17 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(0, 0);
         }
 
-        direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); // detect which direction player want to move
+        // detect which direction player want to move
+        direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); 
 
         LinearDrag(direction);
         if (is_grounded && Input.GetButtonDown("Jump"))
         {
             Jump();
         }
+
         Debug.Log(rb.drag + ", " + rb.gravityScale);
+        Debug.Log(rb.velocity);
     }
 
     void FixedUpdate()
@@ -39,15 +43,20 @@ public class PlayerMovement : MonoBehaviour
         MoveCharacter(direction);
     }
 
+
     private void LinearDrag(Vector2 direction)
     {
         bool changing_direction = (rb.velocity.x > 0 && direction.x < 0) || (rb.velocity.x < 0 && direction.x > 0);
 
         if (is_grounded)
         {
-            if (Mathf.Abs(direction.x) < 0.4f || changing_direction) // player will slow down when there is no input on the ground
+            if (Mathf.Abs(direction.x) < 0.4f || changing_direction) // player will slow down when there is no input on the ground or chaning direction
             {
                 rb.drag = linear_drag;
+            }
+            else if (is_icy)
+            {
+                rb.drag = 0;
             }
             else
             {
@@ -95,6 +104,10 @@ public class PlayerMovement : MonoBehaviour
         {
             is_grounded = true;
         }
+        if (collision.gameObject.tag == "ice")
+        {
+            is_icy = true;
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -102,6 +115,10 @@ public class PlayerMovement : MonoBehaviour
         if(collision.gameObject.tag == "ground")
         {
             is_grounded = false;
+        }
+        if (collision.gameObject.tag == "ice")
+        {
+            is_icy= false;
         }
     }
     //check if player is on ground every frame 
