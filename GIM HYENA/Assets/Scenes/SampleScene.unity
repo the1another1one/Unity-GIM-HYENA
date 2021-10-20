@@ -323,7 +323,6 @@ MonoBehaviour:
   gravity: 1.5
   fall_multiplier: 1
   is_grounded: 0
-  is_icy: 0
 --- !u!50 &1250118316 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 7515847434628353432, guid: 1471bce21ad84104fa2e23af1124b27c, type: 3}
@@ -343,7 +342,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6943757684550146462, guid: fb541a7b9a5ff424a9909227c4112aaa, type: 3}
       propertyPath: m_Name
-      value: Grounds (1)
+      value: Grounds
       objectReference: {fileID: 0}
     - target: {fileID: 9222892403788249552, guid: fb541a7b9a5ff424a9909227c4112aaa, type: 3}
       propertyPath: m_RootOrder
@@ -486,10 +485,10 @@ PrefabInstance:
     - target: {fileID: 4899997354123451088, guid: fb541a7b9a5ff424a9909227c4112aaa, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 6200000, guid: 78baddfc58c756f4b954b20301f08275, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 5980463994708639564, guid: fb541a7b9a5ff424a9909227c4112aaa, type: 3}
       propertyPath: m_Name
-      value: 'icy ground '
+      value: ground (1)
       objectReference: {fileID: 0}
     - target: {fileID: 6943757684550146462, guid: fb541a7b9a5ff424a9909227c4112aaa, type: 3}
       propertyPath: m_Name
@@ -497,15 +496,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7959946015485459694, guid: fb541a7b9a5ff424a9909227c4112aaa, type: 3}
       propertyPath: m_Color.b
-      value: 0.9245283
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7959946015485459694, guid: fb541a7b9a5ff424a9909227c4112aaa, type: 3}
       propertyPath: m_Color.g
-      value: 0.6756216
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7959946015485459694, guid: fb541a7b9a5ff424a9909227c4112aaa, type: 3}
       propertyPath: m_Color.r
-      value: 0.448309
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9222892403788249552, guid: fb541a7b9a5ff424a9909227c4112aaa, type: 3}
       propertyPath: m_RootOrder
