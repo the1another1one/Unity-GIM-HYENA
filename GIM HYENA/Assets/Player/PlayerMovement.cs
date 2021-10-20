@@ -38,8 +38,8 @@ public class PlayerMovement : MonoBehaviour
             Jump();
         }
 
-        Debug.Log(rb.drag + ", " + rb.gravityScale);
-        Debug.Log(rb.velocity);
+//        Debug.Log(rb.drag + ", " + rb.gravityScale);
+  //      Debug.Log(rb.velocity);
     }
 
     void FixedUpdate()
