@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
-{   
+{
+    [Header("COMPONENT")]
     [SerializeField] private Transform tf;
     [SerializeField] private Rigidbody2D rb;
+
+    [Header("HORIZONTAL MOVEMENT")]
+    private Vector2 direction;
     [SerializeField] private float max_speed;
     [SerializeField] private float acceleration;
     [SerializeField] private float linear_drag;
+
+    [Header("VERTICAL MOVEMENT")]
     [SerializeField] private float jump_power;
     [SerializeField] private float gravity;
     [SerializeField] private float fall_multiplier;
     [SerializeField] private bool is_grounded;
-    [SerializeField] private bool is_icy;
-    private Vector2 direction;
 
     // Update is called once per frame
     private void Update()
@@ -53,10 +57,6 @@ public class PlayerMovement : MonoBehaviour
             if (Mathf.Abs(direction.x) < 0.4f || changing_direction) // player will slow down when there is no input on the ground or chaning direction
             {
                 rb.drag = linear_drag;
-            }
-            else if (is_icy)
-            {
-                rb.drag = 0;
             }
             else
             {
@@ -104,10 +104,6 @@ public class PlayerMovement : MonoBehaviour
         {
             is_grounded = true;
         }
-        if (collision.gameObject.tag == "ice")
-        {
-            is_icy = true;
-        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -115,10 +111,6 @@ public class PlayerMovement : MonoBehaviour
         if(collision.gameObject.tag == "ground")
         {
             is_grounded = false;
-        }
-        if (collision.gameObject.tag == "ice")
-        {
-            is_icy= false;
         }
     }
     //check if player is on ground every frame 
