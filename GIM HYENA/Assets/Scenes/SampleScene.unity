@@ -258,6 +258,10 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1049226826410719202, guid: 1471bce21ad84104fa2e23af1124b27c, type: 3}
+      propertyPath: max_speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1049226826410719202, guid: 1471bce21ad84104fa2e23af1124b27c, type: 3}
       propertyPath: jump_power
       value: 10
       objectReference: {fileID: 0}
@@ -1161,11 +1165,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3598418389329722838, guid: a67567efc48662b479cb648d1c244a8b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 27.2
+      value: 36.56
       objectReference: {fileID: 0}
     - target: {fileID: 3598418389329722838, guid: a67567efc48662b479cb648d1c244a8b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.72
+      value: 5.65
       objectReference: {fileID: 0}
     - target: {fileID: 3598418389329722838, guid: a67567efc48662b479cb648d1c244a8b, type: 3}
       propertyPath: m_LocalPosition.z
