@@ -25,8 +25,8 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        is_right_ground = Physics2D.Raycast(transform.position + Vector3.right * (enemy_size.bounds.size.x / 2 + 0.1f), Vector2.down, raycast_height, ground_layer); //mendeteksi apakah terdapat collider di kanan bawah
-        is_left_ground = Physics2D.Raycast(transform.position + Vector3.left * (enemy_size.bounds.size.x / 2 + 0.1f), Vector2.down, raycast_height, ground_layer); //mendeteksi apakah terdapat collider di kiri bawah
+        is_right_ground = Physics2D.Raycast(transform.position + Vector3.right * (enemy_size.bounds.size.x / 2), Vector2.down, raycast_height, ground_layer); //mendeteksi apakah terdapat collider di kanan bawah
+        is_left_ground = Physics2D.Raycast(transform.position + Vector3.left * (enemy_size.bounds.size.x / 2), Vector2.down, raycast_height, ground_layer); //mendeteksi apakah terdapat collider di kiri bawah
 
         Debug.Log(rb.velocity);
     }
@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour
 
     private void Movement (bool is_right_ground, bool is_left_ground)
     {
-        if ((is_right_ground == true && is_left_ground == false) || (is_right_ground == false || is_left_ground == true))
+        if ((is_right_ground == true && is_left_ground == false) || (is_right_ground == false && is_left_ground == true))
         {
             move_speed = -move_speed;
         }
@@ -50,7 +50,7 @@ public class Enemy : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(transform.position + Vector3.right * (enemy_size.bounds.size.x / 2 + 0.1f), transform.position + Vector3.down * raycast_height + Vector3.right * (enemy_size.bounds.size.x / 2 + 0.1f));
-        Gizmos.DrawLine(transform.position + Vector3.left * (enemy_size.bounds.size.x / 2 + 0.1f), transform.position + Vector3.down * raycast_height + Vector3.left * (enemy_size.bounds.size.x / 2 + 0.1f));
+        Gizmos.DrawLine(transform.position + Vector3.right * (enemy_size.bounds.size.x / 2), transform.position + Vector3.down * raycast_height + Vector3.right * (enemy_size.bounds.size.x / 2));
+        Gizmos.DrawLine(transform.position + Vector3.left * (enemy_size.bounds.size.x / 2), transform.position + Vector3.down * raycast_height + Vector3.left * (enemy_size.bounds.size.x / 2));
     }
 }

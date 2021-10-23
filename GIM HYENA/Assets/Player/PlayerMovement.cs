@@ -41,14 +41,14 @@ public class PlayerMovement : MonoBehaviour
         direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); 
 
         // determine the translation drag
-        LinearDrag(direction);
 
         //ground checking
-        is_left_ground = Physics2D.Raycast(transform.position + Vector3.left * player_size.bounds.size.x / 2, Vector2.down, raycast_height, ground_layer);
-        is_center_ground = Physics2D.Raycast(transform.position , Vector2.down, raycast_height, ground_layer);
-        is_right_ground = Physics2D.Raycast(transform.position + Vector3.right * player_size.bounds.size.x / 2, Vector2.down, raycast_height, ground_layer);
-        is_grounded = GroundCheck(is_left_ground, is_center_ground, is_right_ground);
+        is_left_ground = Physics2D.Raycast(transform.position + Vector3.left * player_size.bounds.size.x / 2, Vector2.down, raycast_height, ground_layer); //mendeteksi apakah terdapat collider di kiri bawah
+        is_center_ground = Physics2D.Raycast(transform.position , Vector2.down, raycast_height, ground_layer); //mendeteksi apakah terdapat collider di bawah
+        is_right_ground = Physics2D.Raycast(transform.position + Vector3.right * player_size.bounds.size.x / 2, Vector2.down, raycast_height, ground_layer); //mendeteksi apakah terdapat collider di kanan bawah
+        is_grounded = GroundCheck(is_left_ground, is_center_ground, is_right_ground); 
 
+        LinearDrag(direction);
         // jump 
         if (is_grounded && Input.GetButtonDown("Jump"))
         {
