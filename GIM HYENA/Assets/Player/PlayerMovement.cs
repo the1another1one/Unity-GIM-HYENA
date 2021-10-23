@@ -18,7 +18,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jump_power;
     [SerializeField] private float gravity;
     [SerializeField] private float fall_multiplier;
+
+    [Header("GROUND CHECK")]
+    [SerializeField] private SpriteRenderer player_size;
+    [SerializeField] private LayerMask ground_layer;
+    [SerializeField] private float raycast_height;
     [SerializeField] private bool is_grounded;
+    [SerializeField] private bool is_left_ground;
+    [SerializeField] private bool is_center_ground;
+    [SerializeField] private bool is_right_ground;
 
     // Update is called once per frame
     private void Update()
@@ -32,14 +40,20 @@ public class PlayerMovement : MonoBehaviour
         // detect which direction player want to move
         direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); 
 
+        // determine the translation drag
         LinearDrag(direction);
+
+        //ground checking
+        is_left_ground = Physics2D.Raycast(transform.position + Vector3.left * player_size.bounds.size.x / 2, Vector2.down, raycast_height, ground_layer);
+        is_center_ground = Physics2D.Raycast(transform.position , Vector2.down, raycast_height, ground_layer);
+        is_right_ground = Physics2D.Raycast(transform.position + Vector3.right * player_size.bounds.size.x / 2, Vector2.down, raycast_height, ground_layer);
+        is_grounded = GroundCheck(is_left_ground, is_center_ground, is_right_ground);
+
+        // jump 
         if (is_grounded && Input.GetButtonDown("Jump"))
         {
             Jump();
         }
-
-//        Debug.Log(rb.drag + ", " + rb.gravityScale);
-  //      Debug.Log(rb.velocity);
     }
 
     void FixedUpdate()
@@ -47,6 +61,25 @@ public class PlayerMovement : MonoBehaviour
         MoveCharacter(direction);
     }
 
+    private bool GroundCheck(bool is_left_ground, bool is_center_ground, bool is_right_ground)
+    {
+        if (is_left_ground == false && is_center_ground == false && is_right_ground == false)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(transform.position + Vector3.left * player_size.bounds.size.x / 2, transform.position + Vector3.down * raycast_height + Vector3.left * player_size.bounds.size.x / 2);
+        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * raycast_height);
+        Gizmos.DrawLine(transform.position + Vector3.right * player_size.bounds.size.x / 2, transform.position + Vector3.down * raycast_height + Vector3.right * player_size.bounds.size.x / 2);
+    }
 
     private void LinearDrag(Vector2 direction)
     {
@@ -96,22 +129,4 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.AddForce(Vector2.up * jump_power, ForceMode2D.Impulse);
     }
-
-    //check if player is on ground every frame
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "ground")
-        {
-            is_grounded = true;
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if(collision.gameObject.tag == "ground")
-        {
-            is_grounded = false;
-        }
-    }
-    //check if player is on ground every frame 
 }

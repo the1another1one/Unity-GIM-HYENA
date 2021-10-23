@@ -29,16 +29,16 @@ public class Enemy : MonoBehaviour
         is_left_ground = Physics2D.Raycast(transform.position + Vector3.left * (enemy_size.bounds.size.x / 2 + 0.1f), Vector2.down, raycast_height, ground_layer); //mendeteksi apakah terdapat collider di kiri bawah
 
         Debug.Log(rb.velocity);
-        Movement(is_right_ground, is_left_ground);
     }
 
     private void FixedUpdate()
-    {;
+    {
+        Movement(is_right_ground, is_left_ground);
     }
 
     private void Movement (bool is_right_ground, bool is_left_ground)
     {
-        if (is_right_ground == false || is_left_ground == false)
+        if ((is_right_ground == true && is_left_ground == false) || (is_right_ground == false || is_left_ground == true))
         {
             move_speed = -move_speed;
         }
