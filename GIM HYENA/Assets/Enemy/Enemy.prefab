@@ -150,6 +150,6 @@ MonoBehaviour:
     m_Bits: 64
   rb: {fileID: 2069379144}
   move_speed: 5
-  raycast_height: 0.55
+  raycast_height: 0.52
   is_left_ground: 0
   is_right_ground: 0

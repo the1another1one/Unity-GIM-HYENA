@@ -31,31 +31,35 @@ public class DeathSystem : MonoBehaviour
 
         if (sprite_player.color == Color.red && (Time.time - t) >= 1)
         {
-            t = 0;
             sprite_player.color = ori_color;
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.gameObject.tag == "enemy")
         {
-
-            if (collision.gameObject.tag == "enemy")
-            {
-                sprite_player.color = Color.Lerp(ori_color, Color.red, 1);
-                t = Time.time;
+            sprite_player.color = Color.Lerp(ori_color, Color.red, 1); // change color when collide with enemy
+            t = Time.time;
                 
 
-                player_life -= 1;
-                contact = collision.gameObject.transform; // store where the enemy position
+            player_life -= 1;
+            contact = collision.gameObject.transform; // store where the enemy position
 
-                rb_player.velocity = new Vector2(0, 0);
-                rb_player.AddForce((tf_player.position - contact.position) * 10, ForceMode2D.Impulse); 
-                // bounce off from enemy
-                Debug.Log(contact);
-            }
-
+            rb_player.velocity = new Vector2(0, 0);
+            rb_player.AddForce((tf_player.position - contact.position) * 10, ForceMode2D.Impulse); 
+            // bounce off from enemy
+            Debug.Log(contact);
         } 
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "finish")
+        {
+
+            FindObjectOfType<GameManager>().GameOver(); // run GameOver function on GameManager script
+        }
     }
 
 
