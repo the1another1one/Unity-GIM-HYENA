@@ -5,9 +5,10 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public GameObject death_menu;
+    public GameObject player;
     public void GameOver()
     {
-        Time.timeScale = 0f;
+        Destroy(player);
         death_menu.SetActive(true);
     }
 }
