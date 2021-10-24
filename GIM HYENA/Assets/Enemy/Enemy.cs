@@ -27,8 +27,6 @@ public class Enemy : MonoBehaviour
     {
         is_right_ground = Physics2D.Raycast(transform.position + Vector3.right * (enemy_size.bounds.size.x / 2), Vector2.down, raycast_height, ground_layer); //mendeteksi apakah terdapat collider di kanan bawah
         is_left_ground = Physics2D.Raycast(transform.position + Vector3.left * (enemy_size.bounds.size.x / 2), Vector2.down, raycast_height, ground_layer); //mendeteksi apakah terdapat collider di kiri bawah
-
-        Debug.Log(rb.velocity);
     }
 
     private void FixedUpdate()

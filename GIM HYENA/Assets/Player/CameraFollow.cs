@@ -14,7 +14,11 @@ public class CameraFollow : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // following player when its not destroyed
+     if (target!= null)
+        {
         Vector3 desired_position = target.position + offset;
         transform.position = Vector3.SmoothDamp(transform.position, desired_position, ref smooth_speed, damping);
+        }
     }
 }

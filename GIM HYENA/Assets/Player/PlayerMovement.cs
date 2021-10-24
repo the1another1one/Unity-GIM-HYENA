@@ -31,11 +31,6 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (tf.position.y < -50)
-        {
-            tf.position = new Vector3(0, 0, 0); // respawn point if player fall into abyss
-            rb.velocity = new Vector2(0, 0);
-        }
 
         // detect which direction player want to move
         direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); 
