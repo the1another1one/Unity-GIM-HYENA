@@ -452,7 +452,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1049226826410719202, guid: 1471bce21ad84104fa2e23af1124b27c, type: 3}
       propertyPath: max_speed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1049226826410719202, guid: 1471bce21ad84104fa2e23af1124b27c, type: 3}
       propertyPath: jump_power

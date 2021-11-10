@@ -106,7 +106,7 @@ MonoBehaviour:
   ground_layer:
     serializedVersion: 2
     m_Bits: 64
-  raycast_height: 2.38
+  raycast_height: 0.6
   is_grounded: 0
   is_left_ground: 0
   is_center_ground: 0
@@ -175,4 +175,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 2767594999028181989}
-  game_manager: {fileID: 0}
+  player_life: 0
